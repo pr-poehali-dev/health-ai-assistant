@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import Icon from '@/components/ui/icon';
+import AdBanner from '@/components/AdBanner';
 
 interface AnalysisResult {
   type: string;
@@ -71,69 +72,85 @@ export default function PhotoPage() {
     if (file && file.type.startsWith('image/')) handleFile(file);
   };
 
-  const reset = () => {
-    setImage(null);
-    setResult(null);
-    setProgress(0);
-  };
+  const reset = () => { setImage(null); setResult(null); setProgress(0); };
 
   return (
-    <div className="min-h-screen leaf-bg pb-28">
+    <div className="min-h-screen leaf-bg pb-nav">
       {/* Header */}
-      <div className="health-gradient px-5 pt-12 pb-5">
+      <div className="health-gradient px-5 safe-top pb-5">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center">
             <Icon name="Camera" fallback="Image" size={20} className="text-white" />
           </div>
           <div>
-            <h1 className="text-white font-semibold text-lg leading-none">Анализ фото раны</h1>
+            <h1 className="text-white font-semibold text-base leading-none">Анализ фото раны</h1>
             <p className="text-white/70 text-xs mt-0.5">Загрузите фото для диагностики</p>
           </div>
         </div>
       </div>
 
-      <div className="px-5 pt-6">
+      {/* Ad top */}
+      <div className="pt-4">
+        <AdBanner size="small" />
+      </div>
+
+      <div className="px-5 pt-4">
         {!image ? (
-          <div
-            onDrop={handleDrop}
-            onDragOver={e => e.preventDefault()}
-            className="border-2 border-dashed border-primary/40 rounded-3xl bg-white/80 p-8 text-center cursor-pointer hover:border-primary hover:bg-white transition-all duration-200"
-            onClick={() => fileRef.current?.click()}
-          >
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              <Icon name="ImagePlus" fallback="Upload" size={28} className="text-primary" />
+          <>
+            <div
+              onDrop={handleDrop}
+              onDragOver={e => e.preventDefault()}
+              className="border-2 border-dashed border-primary/40 rounded-3xl bg-white/80 p-7 text-center cursor-pointer hover:border-primary hover:bg-white transition-all duration-200 active:scale-[0.98]"
+              onClick={() => fileRef.current?.click()}
+            >
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                <Icon name="ImagePlus" fallback="Upload" size={28} className="text-primary" />
+              </div>
+              <h3 className="font-semibold text-foreground text-base mb-1.5">Загрузите фото раны</h3>
+              <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
+                Сделайте чёткий снимок при хорошем освещении
+              </p>
+              <button className="health-gradient text-white text-sm font-semibold px-6 py-3 rounded-2xl hover:opacity-90 transition-opacity w-full touch-target flex items-center justify-center gap-2">
+                <Icon name="Camera" fallback="Upload" size={16} className="text-white" />
+                Выбрать или сфотографировать
+              </button>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
+              />
             </div>
-            <h3 className="font-semibold text-foreground text-base mb-2">Загрузите фото раны</h3>
-            <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
-              Сделайте чёткий снимок при хорошем освещении.<br />
-              Поддерживаются JPG, PNG, HEIC
-            </p>
-            <button className="health-gradient text-white text-sm font-medium px-6 py-2.5 rounded-2xl hover:opacity-90 transition-opacity">
-              Выбрать фото
-            </button>
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/*"
-              capture="environment"
-              className="hidden"
-              onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
-            />
-          </div>
+
+            {/* Tips */}
+            <div className="mt-5 space-y-2.5">
+              <h3 className="font-semibold text-foreground text-sm">Советы для точного результата:</h3>
+              {[
+                { icon: 'Sun', text: 'Хорошее освещение — снимок при дневном свете' },
+                { icon: 'Focus', text: 'Расстояние 15–20 см от объекта съёмки' },
+                { icon: 'ZoomIn', text: 'Рана должна занимать большую часть кадра' },
+              ].map((tip, i) => (
+                <div key={i} className="flex gap-3 bg-white/70 rounded-2xl p-3 border border-border items-center">
+                  <Icon name={tip.icon} fallback="Info" size={16} className="text-primary flex-shrink-0" />
+                  <p className="text-sm text-foreground/80">{tip.text}</p>
+                </div>
+              ))}
+            </div>
+          </>
         ) : (
           <div className="space-y-4">
-            {/* Photo preview */}
             <div className="glass-card rounded-3xl overflow-hidden">
               <div className="relative">
-                <img src={image} alt="Загруженное фото" className="w-full max-h-64 object-cover" />
+                <img src={image} alt="Загруженное фото" className="w-full max-h-56 object-cover" />
                 <button
                   onClick={reset}
-                  className="absolute top-3 right-3 w-8 h-8 bg-black/50 rounded-full flex items-center justify-center hover:bg-black/70 transition-colors"
+                  className="absolute top-3 right-3 w-9 h-9 bg-black/50 rounded-full flex items-center justify-center active:bg-black/70 transition-colors touch-target"
                 >
                   <Icon name="X" fallback="XCircle" size={16} className="text-white" />
                 </button>
               </div>
-
               {isAnalyzing && (
                 <div className="p-5">
                   <div className="flex items-center gap-2 mb-3">
@@ -143,10 +160,7 @@ export default function PhotoPage() {
                     <span className="text-sm font-medium text-foreground">ИИ анализирует фото...</span>
                   </div>
                   <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
-                    <div
-                      className="h-full health-gradient rounded-full transition-all duration-150"
-                      style={{ width: `${progress}%` }}
-                    />
+                    <div className="h-full health-gradient rounded-full transition-all duration-150" style={{ width: `${progress}%` }} />
                   </div>
                   <div className="flex justify-between mt-2">
                     <span className="text-xs text-muted-foreground">Распознаю тип повреждения</span>
@@ -156,12 +170,10 @@ export default function PhotoPage() {
               )}
             </div>
 
-            {/* Result */}
             {result && (
               <div className="space-y-4 animate-fade-in">
-                {/* Type & severity */}
                 <div className="glass-card rounded-3xl p-5">
-                  <div className="flex items-start gap-3 mb-4">
+                  <div className="flex items-start gap-3 mb-3">
                     <span className="text-2xl">🔬</span>
                     <div>
                       <p className="text-xs text-muted-foreground mb-1">Определено</p>
@@ -177,7 +189,9 @@ export default function PhotoPage() {
                   </div>
                 </div>
 
-                {/* Steps */}
+                {/* Ad между блоками результата */}
+                <AdBanner size="small" />
+
                 <div className="glass-card rounded-3xl p-5">
                   <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
                     <span>🩹</span> Порядок лечения
@@ -194,7 +208,6 @@ export default function PhotoPage() {
                   </div>
                 </div>
 
-                {/* Medicines */}
                 <div className="glass-card rounded-3xl p-5">
                   <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
                     <span>💊</span> Необходимые препараты
@@ -209,7 +222,6 @@ export default function PhotoPage() {
                   </div>
                 </div>
 
-                {/* Warning */}
                 {result.warning && (
                   <div className="bg-amber-50 border border-amber-200 rounded-3xl p-4">
                     <div className="flex gap-2">
@@ -221,29 +233,12 @@ export default function PhotoPage() {
 
                 <button
                   onClick={reset}
-                  className="w-full py-3.5 rounded-2xl border-2 border-primary text-primary font-semibold text-sm hover:bg-primary hover:text-white transition-all duration-200"
+                  className="w-full py-4 rounded-2xl border-2 border-primary text-primary font-semibold text-sm active:scale-[0.98] transition-transform touch-target"
                 >
                   Загрузить другое фото
                 </button>
               </div>
             )}
-          </div>
-        )}
-
-        {/* Tips */}
-        {!image && (
-          <div className="mt-5 space-y-3">
-            <h3 className="font-semibold text-foreground text-sm">Советы для лучшего результата:</h3>
-            {[
-              { icon: 'Sun', text: 'Хорошее освещение — снимок при дневном свете' },
-              { icon: 'Focus', text: 'Расстояние 15–20 см от объекта' },
-              { icon: 'ZoomIn', text: 'Рана должна занимать большую часть кадра' },
-            ].map((tip, i) => (
-              <div key={i} className="flex gap-3 bg-white/70 rounded-2xl p-3 border border-border">
-                <Icon name={tip.icon} fallback="Info" size={16} className="text-primary flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-foreground/80">{tip.text}</p>
-              </div>
-            ))}
           </div>
         )}
       </div>

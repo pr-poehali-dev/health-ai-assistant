@@ -50,6 +50,18 @@
   body {
     @apply bg-background text-foreground;
     font-family: "Golos Text", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
   }
 }
 
@@ -130,6 +142,43 @@
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  .safe-top {
+    padding-top: max(48px, env(safe-area-inset-top, 48px));
+  }
+
+  .safe-bottom {
+    padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
+  }
+
+  .pb-nav {
+    padding-bottom: calc(72px + max(8px, env(safe-area-inset-bottom, 8px)));
+  }
+
+  .ad-banner {
+    width: 100%;
+    background: linear-gradient(135deg, #f8faff 0%, #eef4ff 100%);
+    border: 1px solid #dde8ff;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ad-banner-label {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    font-size: 9px;
+    color: #9baac8;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .touch-target {
+    min-height: 48px;
+    min-width: 48px;
   }
 }
 

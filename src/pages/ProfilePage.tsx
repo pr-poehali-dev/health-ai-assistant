@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import Icon from '@/components/ui/icon';
+import AdBanner from '@/components/AdBanner';
 
 const AI_MODELS = [
-  { id: 'gpt4', name: 'ChatGPT-4o', desc: 'OpenAI — лучший для анализа', tag: 'Популярный', color: 'border-emerald-300 bg-emerald-50' },
-  { id: 'deepseek', name: 'DeepSeek R1', desc: 'Глубокий анализ медданных', tag: 'Умный', color: 'border-blue-300 bg-blue-50' },
-  { id: 'claude', name: 'Claude 3.5', desc: 'Anthropic — точные ответы', tag: 'Точный', color: 'border-violet-300 bg-violet-50' },
-  { id: 'gemini', name: 'Gemini Pro', desc: 'Google — фото-анализ', tag: 'Для фото', color: 'border-orange-300 bg-orange-50' },
+  { id: 'gpt4', name: 'ChatGPT-4o', desc: 'OpenAI — лучший для анализа', tag: 'Популярный', tagColor: 'bg-emerald-100 text-emerald-700' },
+  { id: 'deepseek', name: 'DeepSeek R1', desc: 'Глубокий анализ медданных', tag: 'Умный', tagColor: 'bg-blue-100 text-blue-700' },
+  { id: 'claude', name: 'Claude 3.5', desc: 'Anthropic — точные ответы', tag: 'Точный', tagColor: 'bg-violet-100 text-violet-700' },
+  { id: 'gemini', name: 'Gemini Pro', desc: 'Google — анализ фото', tag: 'Для фото', tagColor: 'bg-orange-100 text-orange-700' },
 ];
 
 export default function ProfilePage() {
@@ -21,9 +22,9 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen leaf-bg pb-28">
+    <div className="min-h-screen leaf-bg pb-nav">
       {/* Header */}
-      <div className="health-gradient px-5 pt-12 pb-6">
+      <div className="health-gradient px-5 safe-top pb-6">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
             <Icon name="User" fallback="UserCircle" size={28} className="text-white" />
@@ -35,10 +36,10 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div className="px-5 pt-5 space-y-5">
+      <div className="px-5 pt-5 space-y-4">
         {/* Personal info */}
         <div className="glass-card rounded-3xl p-5">
-          <h2 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+          <h2 className="font-semibold text-foreground mb-4 flex items-center gap-2 text-sm">
             <Icon name="UserCircle" fallback="User" size={18} className="text-primary" />
             Личные данные
           </h2>
@@ -49,7 +50,8 @@ export default function ProfilePage() {
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="Как вас зовут?"
-                className="w-full rounded-2xl border border-border bg-secondary px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full rounded-2xl border border-border bg-secondary px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 touch-target"
+                style={{ minHeight: '48px' }}
               />
             </div>
             <div>
@@ -59,15 +61,22 @@ export default function ProfilePage() {
                 onChange={e => setAge(e.target.value)}
                 placeholder="Сколько лет?"
                 type="number"
-                className="w-full rounded-2xl border border-border bg-secondary px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                inputMode="numeric"
+                className="w-full rounded-2xl border border-border bg-secondary px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 touch-target"
+                style={{ minHeight: '48px' }}
               />
             </div>
           </div>
         </div>
 
+        {/* Ad */}
+        <div className="-mx-5">
+          <AdBanner size="small" />
+        </div>
+
         {/* AI Model selection */}
         <div className="glass-card rounded-3xl p-5">
-          <h2 className="font-semibold text-foreground mb-1 flex items-center gap-2">
+          <h2 className="font-semibold text-foreground mb-1 flex items-center gap-2 text-sm">
             <Icon name="Bot" fallback="Cpu" size={18} className="text-primary" />
             Модель ИИ
           </h2>
@@ -77,27 +86,25 @@ export default function ProfilePage() {
               <button
                 key={model.id}
                 onClick={() => setSelectedModel(model.id)}
-                className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 ${
+                className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 touch-target ${
                   selectedModel === model.id
-                    ? model.color + ' shadow-sm'
-                    : 'border-border bg-white/60 hover:bg-white'
+                    ? 'border-primary bg-primary/5'
+                    : 'border-border bg-white/60'
                 }`}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                       selectedModel === model.id ? 'border-primary bg-primary' : 'border-muted-foreground'
                     }`}>
-                      {selectedModel === model.id && (
-                        <div className="w-2 h-2 rounded-full bg-white" />
-                      )}
+                      {selectedModel === model.id && <div className="w-2 h-2 rounded-full bg-white" />}
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <span className="font-semibold text-foreground text-sm">{model.name}</span>
-                      <p className="text-muted-foreground text-xs">{model.desc}</p>
+                      <p className="text-muted-foreground text-xs truncate">{model.desc}</p>
                     </div>
                   </div>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-white/80 text-foreground border border-border font-medium">
+                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${model.tagColor}`}>
                     {model.tag}
                   </span>
                 </div>
@@ -108,26 +115,26 @@ export default function ProfilePage() {
 
         {/* Settings */}
         <div className="glass-card rounded-3xl p-5">
-          <h2 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+          <h2 className="font-semibold text-foreground mb-4 flex items-center gap-2 text-sm">
             <Icon name="Settings" fallback="Cog" size={18} className="text-primary" />
             Настройки
           </h2>
-          <div className="flex items-center justify-between p-3 bg-secondary rounded-2xl">
-            <div>
+          <button
+            onClick={() => setNotifications(!notifications)}
+            className="w-full flex items-center justify-between p-4 bg-secondary rounded-2xl touch-target"
+          >
+            <div className="text-left">
               <p className="text-sm font-medium text-foreground">Уведомления</p>
               <p className="text-xs text-muted-foreground mt-0.5">Советы по здоровью</p>
             </div>
-            <button
-              onClick={() => setNotifications(!notifications)}
-              className={`w-12 h-6 rounded-full transition-all duration-200 relative ${
-                notifications ? 'bg-primary' : 'bg-muted-foreground/30'
-              }`}
-            >
+            <div className={`w-12 h-6 rounded-full transition-all duration-200 relative flex-shrink-0 ${
+              notifications ? 'bg-primary' : 'bg-muted-foreground/30'
+            }`}>
               <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all duration-200 ${
                 notifications ? 'left-6' : 'left-0.5'
               }`} />
-            </button>
-          </div>
+            </div>
+          </button>
         </div>
 
         {/* Disclaimer */}
@@ -137,20 +144,18 @@ export default function ProfilePage() {
             <div>
               <p className="text-sm font-semibold text-amber-800 mb-1">Медицинский дисклеймер</p>
               <p className="text-xs text-amber-700 leading-relaxed">
-                МедИИ предоставляет информационные рекомендации и не заменяет консультацию врача. 
-                В экстренных ситуациях вызывайте скорую помощь: <strong>103</strong>
+                МедИИ предоставляет информационные рекомендации и не заменяет консультацию врача.
+                В экстренных ситуациях: <strong>103</strong>
               </p>
             </div>
           </div>
         </div>
 
-        {/* Save button */}
+        {/* Save */}
         <button
           onClick={handleSave}
-          className={`w-full py-4 rounded-2xl font-semibold text-sm transition-all duration-300 ${
-            saved
-              ? 'bg-green-500 text-white'
-              : 'health-gradient text-white hover:opacity-90 active:scale-[0.98]'
+          className={`w-full py-4 rounded-2xl font-semibold text-sm transition-all duration-300 touch-target ${
+            saved ? 'bg-green-500 text-white' : 'health-gradient text-white active:opacity-90 active:scale-[0.98]'
           }`}
         >
           {saved ? '✓ Сохранено!' : 'Сохранить настройки'}

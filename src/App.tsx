@@ -20,7 +20,7 @@ const NAV_ITEMS: { id: Page; icon: string; label: string }[] = [
   { id: 'symptoms', icon: 'Stethoscope', label: 'Симптомы' },
   { id: 'photo', icon: 'Camera', label: 'Фото' },
   { id: 'prevention', icon: 'ShieldCheck', label: 'Здоровье' },
-  { id: 'history', icon: 'Clock', label: 'История' },
+  { id: 'history', icon: 'History', label: 'История' },
   { id: 'profile', icon: 'User', label: 'Профиль' },
 ];
 
@@ -30,9 +30,9 @@ function AppContent() {
   const navigate = (p: string) => setPage(p as Page);
 
   return (
-    <div className="relative max-w-md mx-auto min-h-screen bg-background overflow-hidden">
+    <div className="relative w-full max-w-md mx-auto bg-background" style={{ minHeight: '100dvh' }}>
       {/* Page content */}
-      <div className="h-screen overflow-y-auto">
+      <div style={{ height: '100dvh', overflowY: 'auto' }}>
         {page === 'home' && <HomePage onNavigate={navigate} />}
         {page === 'symptoms' && <SymptomsPage />}
         {page === 'photo' && <PhotoPage />}
@@ -42,33 +42,38 @@ function AppContent() {
       </div>
 
       {/* Bottom navigation */}
-      <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/90 backdrop-blur-xl border-t border-border px-2 pb-safe z-50">
-        <div className="flex items-center justify-around py-2">
+      <nav
+        className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/95 backdrop-blur-xl border-t border-border z-50"
+        style={{ paddingBottom: 'max(8px, env(safe-area-inset-bottom, 8px))' }}
+      >
+        <div className="flex items-center justify-around px-1 pt-1 pb-0.5">
           {NAV_ITEMS.map((item) => {
             const isActive = page === item.id;
             return (
               <button
                 key={item.id}
                 onClick={() => setPage(item.id)}
-                className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-2xl nav-pill min-w-[52px] ${
-                  isActive
-                    ? 'bg-primary/10'
-                    : 'hover:bg-secondary'
+                className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-2 rounded-2xl transition-all duration-200 nav-pill ${
+                  isActive ? 'bg-primary/10' : ''
                 }`}
+                style={{ minHeight: '52px' }}
               >
                 <Icon
                   name={item.icon}
                   fallback="Circle"
                   size={22}
-                  className={isActive ? 'text-primary' : 'text-muted-foreground'}
+                  className={`transition-colors ${isActive ? 'text-primary' : 'text-muted-foreground'}`}
                 />
                 <span
-                  className={`text-[10px] font-medium leading-none ${
+                  className={`text-[10px] font-semibold leading-none transition-colors ${
                     isActive ? 'text-primary' : 'text-muted-foreground'
                   }`}
                 >
                   {item.label}
                 </span>
+                {isActive && (
+                  <div className="w-1 h-1 rounded-full bg-primary mt-0.5" />
+                )}
               </button>
             );
           })}
