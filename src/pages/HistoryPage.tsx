@@ -1,5 +1,4 @@
 import Icon from '@/components/ui/icon';
-import AdBanner from '@/components/AdBanner';
 
 interface HistoryItem {
   id: string;
@@ -108,11 +107,6 @@ export default function HistoryPage() {
           ))}
         </div>
 
-        {/* Ad */}
-        <div className="-mx-5 mb-5">
-          <AdBanner size="medium" />
-        </div>
-
         {/* List */}
         <h2 className="font-semibold text-foreground mb-3 text-sm">Последние консультации</h2>
         <div className="space-y-3">
@@ -120,12 +114,6 @@ export default function HistoryPage() {
             const cfg = typeConfig[item.type];
             return (
               <div key={item.id}>
-                {/* Ad после 3-го элемента */}
-                {i === 3 && (
-                  <div className="-mx-5 mb-3">
-                    <AdBanner size="small" />
-                  </div>
-                )}
                 <div className="glass-card rounded-3xl p-4 flex gap-3 active:scale-[0.98] transition-transform">
                   <div className={`w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0 ${cfg.color}`}>
                     <Icon name={cfg.icon} fallback="Circle" size={20} />

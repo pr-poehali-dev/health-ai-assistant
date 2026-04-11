@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Icon from '@/components/ui/icon';
-import AdBanner from '@/components/AdBanner';
 
 const AI_MODELS = [
   { id: 'gpt4', name: 'ChatGPT-4o', desc: 'OpenAI — лучший для анализа', tag: 'Популярный', tagColor: 'bg-emerald-100 text-emerald-700' },
@@ -67,11 +66,6 @@ export default function ProfilePage() {
               />
             </div>
           </div>
-        </div>
-
-        {/* Ad */}
-        <div className="-mx-5">
-          <AdBanner size="small" />
         </div>
 
         {/* AI Model selection */}

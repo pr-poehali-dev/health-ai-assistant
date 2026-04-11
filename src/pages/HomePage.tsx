@@ -1,5 +1,4 @@
 import Icon from '@/components/ui/icon';
-import AdBanner from '@/components/AdBanner';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -84,11 +83,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </div>
 
-      {/* Ad banner — верхний */}
-      <div className="pt-5">
-        <AdBanner size="small" />
-      </div>
-
       {/* Cards */}
       <div className="px-5 pt-5">
         <h2 className="font-golos text-lg font-semibold text-foreground mb-4">Чем могу помочь?</h2>
@@ -118,11 +112,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             </button>
           ))}
         </div>
-      </div>
-
-      {/* Ad banner — между контентом */}
-      <div className="pt-5">
-        <AdBanner size="medium" />
       </div>
 
       {/* Quick tip */}

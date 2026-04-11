@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import Icon from '@/components/ui/icon';
-import AdBanner from '@/components/AdBanner';
 
 interface Message {
   id: string;
@@ -143,14 +142,8 @@ export default function SymptomsPage() {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
-        {messages.map((msg, idx) => (
+        {messages.map((msg) => (
           <div key={msg.id}>
-            {/* Рекламный блок после каждого 4-го сообщения AI */}
-            {msg.role === 'ai' && idx > 0 && idx % 4 === 0 && (
-              <div className="my-3 -mx-4">
-                <AdBanner size="small" />
-              </div>
-            )}
             <div className={`flex items-end gap-2 mb-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
               {msg.role === 'ai' && (
                 <div className="w-8 h-8 rounded-full health-gradient flex items-center justify-center flex-shrink-0">

@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import Icon from '@/components/ui/icon';
-import AdBanner from '@/components/AdBanner';
 
 interface AnalysisResult {
   type: string;
@@ -87,11 +86,6 @@ export default function PhotoPage() {
             <p className="text-white/70 text-xs mt-0.5">Загрузите фото для диагностики</p>
           </div>
         </div>
-      </div>
-
-      {/* Ad top */}
-      <div className="pt-4">
-        <AdBanner size="small" />
       </div>
 
       <div className="px-5 pt-4">
@@ -188,9 +182,6 @@ export default function PhotoPage() {
                     <span className="text-sm text-foreground">Заживление: <strong>{result.duration}</strong></span>
                   </div>
                 </div>
-
-                {/* Ad между блоками результата */}
-                <AdBanner size="small" />
 
                 <div className="glass-card rounded-3xl p-5">
                   <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
