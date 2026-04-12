@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import Icon from '@/components/ui/icon';
+import { useLang } from '@/lib/LanguageContext';
 
 interface Message {
   id: string;
@@ -7,30 +8,6 @@ interface Message {
   text: string;
   time: string;
 }
-
-const QUICK_SYMPTOMS = [
-  'Головная боль', 'Температура', 'Кашель', 'Боль в горле',
-  'Насморк', 'Боль в животе', 'Тошнота', 'Усталость',
-];
-
-const MOCK_RESPONSE = `На основе описанных симптомов, вот мои рекомендации:
-
-**🔍 Предварительная оценка:**
-Симптомы указывают на возможное ОРВИ или лёгкое воспаление. Без осмотра врача точный диагноз невозможен.
-
-**💊 Рекомендуемые препараты:**
-• Парацетамол 500мг — при температуре и боли (3–4 раза в день)
-• Ибупрофен 400мг — снятие воспаления (с едой)
-• Витамин С 1000мг — поддержка иммунитета
-
-**🌿 Домашнее лечение:**
-• Постельный режим 1–2 дня
-• Обильное тёплое питьё (1.5–2 л в день)
-• Тёплые ингаляции с ромашкой или шалфеем
-
-**⏱️ Выздоровление:** 3–7 дней при соблюдении режима
-
-**⚠️ К врачу, если:** температура выше 39°C держится более 3 дней`;
 
 function getTime() {
   return new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
@@ -40,7 +17,7 @@ function TypingIndicator() {
   return (
     <div className="flex items-end gap-2 mb-3">
       <div className="w-8 h-8 rounded-full health-gradient flex items-center justify-center flex-shrink-0">
-        <span className="text-white text-xs font-semibold">ИИ</span>
+        <span className="text-white text-xs font-semibold">AI</span>
       </div>
       <div className="msg-bubble-ai px-4 py-3">
         <div className="flex gap-1 items-center h-4">
@@ -67,17 +44,13 @@ function formatAIText(text: string) {
 }
 
 export default function SymptomsPage() {
+  const { t } = useLang();
+
   const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '0',
-      role: 'ai',
-      text: 'Здравствуйте! 👋 Опишите симптомы подробнее — что беспокоит, как давно, есть ли температура. Я помогу разобраться.',
-      time: getTime(),
-    },
+    { id: '0', role: 'ai', text: t.symptoms_greeting, time: getTime() },
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [msgCount, setMsgCount] = useState(0);
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -90,12 +63,11 @@ export default function SymptomsPage() {
     const userMsg: Message = { id: Date.now().toString(), role: 'user', text: text.trim(), time: getTime() };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
-    setMsgCount(c => c + 1);
     if (textareaRef.current) textareaRef.current.style.height = 'auto';
     setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
-      const aiMsg: Message = { id: (Date.now() + 1).toString(), role: 'ai', text: MOCK_RESPONSE, time: getTime() };
+      const aiMsg: Message = { id: (Date.now() + 1).toString(), role: 'ai', text: t.symptoms_mock, time: getTime() };
       setMessages(prev => [...prev, aiMsg]);
     }, 2200);
   };
@@ -108,27 +80,25 @@ export default function SymptomsPage() {
 
   return (
     <div className="flex flex-col bg-background" style={{ height: '100dvh' }}>
-      {/* Header */}
       <div className="health-gradient px-5 safe-top pb-4 flex-shrink-0">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center">
             <Icon name="Stethoscope" fallback="Activity" size={20} className="text-white" />
           </div>
           <div>
-            <h1 className="text-white font-semibold text-base leading-none">Анализ симптомов</h1>
-            <p className="text-white/70 text-xs mt-0.5">ИИ-диагностика</p>
+            <h1 className="text-white font-semibold text-base leading-none">{t.symptoms_title}</h1>
+            <p className="text-white/70 text-xs mt-0.5">{t.symptoms_subtitle}</p>
           </div>
           <div className="ml-auto flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-green-300 pulse-green" />
-            <span className="text-white/70 text-xs">онлайн</span>
+            <span className="text-white/70 text-xs">{t.symptoms_online}</span>
           </div>
         </div>
       </div>
 
-      {/* Quick symptoms */}
       <div className="px-4 py-2.5 flex-shrink-0 bg-white border-b border-border">
         <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-          {QUICK_SYMPTOMS.map((s) => (
+          {(t.symptoms_quick as readonly string[]).map((s) => (
             <button
               key={s}
               onClick={() => sendMessage(s)}
@@ -140,14 +110,13 @@ export default function SymptomsPage() {
         </div>
       </div>
 
-      {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
         {messages.map((msg) => (
           <div key={msg.id}>
             <div className={`flex items-end gap-2 mb-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
               {msg.role === 'ai' && (
                 <div className="w-8 h-8 rounded-full health-gradient flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-xs font-semibold">ИИ</span>
+                  <span className="text-white text-xs font-semibold">AI</span>
                 </div>
               )}
               <div className={`max-w-[80%] ${msg.role === 'user' ? 'msg-bubble-user px-4 py-2.5' : 'msg-bubble-ai px-4 py-3'}`}>
@@ -163,7 +132,6 @@ export default function SymptomsPage() {
         <div ref={bottomRef} className="h-1" />
       </div>
 
-      {/* Input */}
       <div className="px-4 pt-3 bg-white border-t border-border flex-shrink-0 safe-bottom">
         <div className="flex gap-2 items-end mb-16">
           <textarea
@@ -171,7 +139,7 @@ export default function SymptomsPage() {
             value={input}
             onChange={handleTextarea}
             onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input); } }}
-            placeholder="Опишите симптомы..."
+            placeholder={t.symptoms_placeholder}
             rows={1}
             className="flex-1 resize-none rounded-2xl border border-border bg-secondary px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 leading-relaxed overflow-hidden"
             style={{ minHeight: '48px', maxHeight: '100px' }}

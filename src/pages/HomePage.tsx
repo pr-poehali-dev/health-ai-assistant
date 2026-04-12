@@ -1,58 +1,60 @@
 import Icon from '@/components/ui/icon';
+import { useLang } from '@/lib/LanguageContext';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
 }
 
-const cards = [
-  {
-    id: 'symptoms',
-    icon: 'Stethoscope',
-    title: 'Анализ симптомов',
-    desc: 'Опишите, что вас беспокоит — ИИ поставит предварительный диагноз и подберёт лечение',
-    color: 'from-emerald-50 to-teal-50',
-    border: 'border-emerald-200',
-    iconBg: 'bg-emerald-100',
-    iconColor: 'text-emerald-600',
-    tag: 'Текст + ИИ',
-    tagColor: 'bg-emerald-100 text-emerald-700',
-  },
-  {
-    id: 'photo',
-    icon: 'Camera',
-    title: 'Анализ фото раны',
-    desc: 'Загрузите фотографию — ИИ определит тип повреждения и объяснит, как лечить',
-    color: 'from-blue-50 to-cyan-50',
-    border: 'border-blue-200',
-    iconBg: 'bg-blue-100',
-    iconColor: 'text-blue-600',
-    tag: 'Фото + ИИ',
-    tagColor: 'bg-blue-100 text-blue-700',
-  },
-  {
-    id: 'prevention',
-    icon: 'ShieldCheck',
-    title: 'Профилактика',
-    desc: 'Получите персональные советы, как укрепить здоровье и не заболеть',
-    color: 'from-violet-50 to-purple-50',
-    border: 'border-violet-200',
-    iconBg: 'bg-violet-100',
-    iconColor: 'text-violet-600',
-    tag: 'Советы',
-    tagColor: 'bg-violet-100 text-violet-700',
-  },
-];
-
-const stats = [
-  { value: '24/7', label: 'Доступен' },
-  { value: '3 с', label: 'Быстро' },
-  { value: '100%', label: 'Приватно' },
-];
-
 export default function HomePage({ onNavigate }: HomePageProps) {
+  const { t } = useLang();
+
+  const cards = [
+    {
+      id: 'symptoms',
+      icon: 'Stethoscope',
+      title: t.card_symptoms_title,
+      desc: t.card_symptoms_desc,
+      color: 'from-emerald-50 to-teal-50',
+      border: 'border-emerald-200',
+      iconBg: 'bg-emerald-100',
+      iconColor: 'text-emerald-600',
+      tag: t.card_symptoms_tag,
+      tagColor: 'bg-emerald-100 text-emerald-700',
+    },
+    {
+      id: 'photo',
+      icon: 'Camera',
+      title: t.card_photo_title,
+      desc: t.card_photo_desc,
+      color: 'from-blue-50 to-cyan-50',
+      border: 'border-blue-200',
+      iconBg: 'bg-blue-100',
+      iconColor: 'text-blue-600',
+      tag: t.card_photo_tag,
+      tagColor: 'bg-blue-100 text-blue-700',
+    },
+    {
+      id: 'prevention',
+      icon: 'ShieldCheck',
+      title: t.card_prevention_title,
+      desc: t.card_prevention_desc,
+      color: 'from-violet-50 to-purple-50',
+      border: 'border-violet-200',
+      iconBg: 'bg-violet-100',
+      iconColor: 'text-violet-600',
+      tag: t.card_prevention_tag,
+      tagColor: 'bg-violet-100 text-violet-700',
+    },
+  ];
+
+  const stats = [
+    { value: t.home_stat1_val, label: t.home_stat1_label },
+    { value: t.home_stat2_val, label: t.home_stat2_label },
+    { value: t.home_stat3_val, label: t.home_stat3_label },
+  ];
+
   return (
     <div className="min-h-screen leaf-bg pb-nav">
-      {/* Hero */}
       <div className="health-gradient px-5 safe-top pb-8 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-4 right-8 w-32 h-32 rounded-full bg-white blur-2xl" />
@@ -63,15 +65,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
               <span className="text-white text-sm">✦</span>
             </div>
-            <span className="text-white/80 text-sm font-medium tracking-wide">МедИИ</span>
+            <span className="text-white/80 text-sm font-medium tracking-wide">{t.home_brand}</span>
           </div>
           <h1 className="font-cormorant text-4xl text-white font-semibold leading-tight mb-2">
-            Ваш умный<br />
-            <span className="italic">помощник</span> здоровья
+            {t.home_title1}<br />
+            <span className="italic">{t.home_title2}</span> {t.home_title3}
           </h1>
-          <p className="text-white/75 text-sm leading-relaxed mt-2">
-            ИИ-диагностика симптомов, анализ ран по фото и советы по профилактике
-          </p>
+          <p className="text-white/75 text-sm leading-relaxed mt-2">{t.home_subtitle}</p>
         </div>
         <div className="flex gap-3 mt-5 relative">
           {stats.map((s) => (
@@ -83,9 +83,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </div>
 
-      {/* Cards */}
       <div className="px-5 pt-5">
-        <h2 className="font-golos text-lg font-semibold text-foreground mb-4">Чем могу помочь?</h2>
+        <h2 className="font-golos text-lg font-semibold text-foreground mb-4">{t.home_section}</h2>
         <div className="flex flex-col gap-3">
           {cards.map((card, i) => (
             <button
@@ -114,15 +113,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </div>
 
-      {/* Quick tip */}
-      <div className="mx-5 mt-4 bg-amber-50 border border-amber-200 rounded-3xl p-4">
+      <div className="mx-5 mt-5 bg-amber-50 border border-amber-200 rounded-3xl p-4">
         <div className="flex gap-3">
           <span className="text-xl flex-shrink-0">💡</span>
           <div>
-            <p className="text-sm font-semibold text-amber-800 mb-1">Важно помнить</p>
-            <p className="text-xs text-amber-700 leading-relaxed">
-              ИИ-помощник даёт рекомендации на основе описанных симптомов. При серьёзных состояниях всегда обращайтесь к врачу.
-            </p>
+            <p className="text-sm font-semibold text-amber-800 mb-1">{t.home_tip_title}</p>
+            <p className="text-xs text-amber-700 leading-relaxed">{t.home_tip_text}</p>
           </div>
         </div>
       </div>
