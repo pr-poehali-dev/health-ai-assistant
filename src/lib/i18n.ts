@@ -44,6 +44,9 @@ export const translations = {
     symptoms_placeholder: 'Опишите симптомы...',
     symptoms_greeting: 'Здравствуйте! 👋 Опишите симптомы подробнее — что беспокоит, как давно, есть ли температура. Я помогу разобраться.',
     symptoms_quick: ['Головная боль', 'Температура', 'Кашель', 'Боль в горле', 'Насморк', 'Боль в животе', 'Тошнота', 'Усталость'],
+    symptoms_mic_listening: 'Слушаю...',
+    symptoms_mic_tap: 'Нажмите для голосового ввода',
+    symptoms_mic_error: 'Микрофон недоступен',
     symptoms_mock: `На основе описанных симптомов, вот мои рекомендации:\n\n**🔍 Предварительная оценка:**\nСимптомы указывают на возможное ОРВИ или лёгкое воспаление. Без осмотра врача точный диагноз невозможен.\n\n**💊 Рекомендуемые препараты:**\n• Парацетамол 500мг — при температуре и боли (3–4 раза в день)\n• Ибупрофен 400мг — снятие воспаления (с едой)\n• Витамин С 1000мг — поддержка иммунитета\n\n**🌿 Домашнее лечение:**\n• Постельный режим 1–2 дня\n• Обильное тёплое питьё (1.5–2 л в день)\n• Тёплые ингаляции с ромашкой или шалфеем\n\n**⏱️ Выздоровление:** 3–7 дней при соблюдении режима\n\n**⚠️ К врачу, если:** температура выше 39°C держится более 3 дней`,
 
     // PhotoPage
@@ -180,6 +183,9 @@ export const translations = {
     symptoms_placeholder: 'Describe your symptoms...',
     symptoms_greeting: 'Hello! 👋 Please describe your symptoms in detail — what bothers you, how long, do you have a fever? I will help.',
     symptoms_quick: ['Headache', 'Fever', 'Cough', 'Sore throat', 'Runny nose', 'Stomach pain', 'Nausea', 'Fatigue'],
+    symptoms_mic_listening: 'Listening...',
+    symptoms_mic_tap: 'Tap to use voice input',
+    symptoms_mic_error: 'Microphone unavailable',
     symptoms_mock: `Based on your symptoms, here are my recommendations:\n\n**🔍 Preliminary Assessment:**\nSymptoms suggest possible ARVI or mild inflammation. Exact diagnosis is not possible without a doctor's examination.\n\n**💊 Recommended Medications:**\n• Paracetamol 500mg — for fever and pain (3–4 times daily)\n• Ibuprofen 400mg — anti-inflammatory (with food)\n• Vitamin C 1000mg — immune support\n\n**🌿 Home Treatment:**\n• Bed rest for 1–2 days\n• Plenty of warm fluids (1.5–2 L per day)\n• Warm inhalations with chamomile or sage\n\n**⏱️ Recovery:** 3–7 days with proper care\n\n**⚠️ See a doctor if:** fever above 39°C lasts more than 3 days`,
 
     // PhotoPage
